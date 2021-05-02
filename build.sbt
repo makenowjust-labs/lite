@@ -24,15 +24,34 @@ lazy val root = project
     publish / skip := true,
     coverageEnabled := false
   )
-  .aggregate(show)
+  .aggregate(show, romaji)
+
+lazy val romaji = project
+  .in(file("modules/lite-romaji"))
+  .settings(
+    name := "lite-romaji",
+    console / initialCommands :=
+      """|import codes.quine.labo.lite.romaji._
+         |""".stripMargin,
+    Compile / console / scalacOptions -= "-Wunused",
+    Test / console / scalacOptions -= "-Wunused",
+    // Set URL mapping of scala standard API for Scaladoc.
+    apiMappings ++= scalaInstance.value.libraryJars
+      .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
+      .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
+      .toMap,
+    // Settings for test:
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
+    testFrameworks += new TestFramework("munit.Framework")
+  )
 
 lazy val show = project
   .in(file("modules/lite-show"))
   .settings(
     name := "lite-show",
-    console / initialCommands := """
-      |import codes.quine.labo.lite.show._
-      """.stripMargin,
+    console / initialCommands :=
+      """|import codes.quine.labo.lite.show._
+         |""".stripMargin,
     Compile / console / scalacOptions -= "-Wunused",
     Test / console / scalacOptions -= "-Wunused",
     // Set URL mapping of scala standard API for Scaladoc.

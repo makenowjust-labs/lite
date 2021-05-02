@@ -7,6 +7,7 @@
 
 ## Libraries
 
+- **lite-romaji**: A romaji-kana bi-directional transliterator.
 - **lite-show**: A small pretty-print library.
 
 ## License
