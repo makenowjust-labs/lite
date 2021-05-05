@@ -2,6 +2,8 @@
 
 > A small pretty-print library.
 
+[![Maven Central](https://img.shields.io/maven-central/v/codes.quine.labo/lite-show_2.13?logo=scala&style=for-the-badge)](https://search.maven.org/artifact/codes.quine.labo/lite-show_2.13)
+
 ## Usage
 
 `Show.show` prints the given value as pretty format.

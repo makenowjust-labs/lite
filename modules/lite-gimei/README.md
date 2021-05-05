@@ -4,6 +4,8 @@
 
 It is also a port of Ruby's [`gimei`](https://github.com/willnet/gimei) library.
 
+[![Maven Central](https://img.shields.io/maven-central/v/codes.quine.labo/lite-gimei_2.13?logo=scala&style=for-the-badge)](https://search.maven.org/artifact/codes.quine.labo/lite-gimei_2.13)
+
 ## Usage
 
 `Gimei` is the frontend to generate a Japanese dummy data.

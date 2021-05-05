@@ -2,6 +2,8 @@
 
 >  A romaji-kana bi-directional transliterator.
 
+[![Maven Central](https://img.shields.io/maven-central/v/codes.quine.labo/lite-romaji_2.13?logo=scala&style=for-the-badge)](https://search.maven.org/artifact/codes.quine.labo/lite-romaji_2.13)
+
 ## Usage
 
 `Romaji.toKana` converts romaji text to katakana text.
