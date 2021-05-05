@@ -1,7 +1,7 @@
 package codes.quine.labo.lite.gimei
 
 /** Name is a Japanese name with furigana. */
-case class Name(gender: Name.Gender, firstName: Word, lastName: Word) extends Furigana {
+final case class Name(gender: Name.Gender, firstName: Word, lastName: Word) extends Furigana {
   def toKanji: String = s"${lastName.toKanji} ${firstName.toKanji}"
   def toHiragana: String = s"${lastName.toHiragana} ${firstName.toHiragana}"
   def toKatakana: String = s"${lastName.toKatakana} ${firstName.toKatakana}"
