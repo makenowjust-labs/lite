@@ -24,7 +24,43 @@ lazy val root = project
     publish / skip := true,
     coverageEnabled := false
   )
-  .aggregate(show, romaji)
+  .aggregate(gimei, show, romaji)
+
+lazy val gimei = project
+  .in(file("modules/lite-gimei"))
+  .settings(
+    name := "lite-gimei",
+    console / initialCommands :=
+      """|import codes.quine.labo.lite.gimei._
+         |""".stripMargin,
+    Compile / console / scalacOptions -= "-Wunused",
+    Test / console / scalacOptions -= "-Wunused",
+    // Set URL mapping of scala standard API for Scaladoc.
+    apiMappings ++= scalaInstance.value.libraryJars
+      .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
+      .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
+      .toMap,
+    // Settings for test:
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
+    testFrameworks += new TestFramework("munit.Framework"),
+    // Generators:
+    {
+      val generateData = taskKey[Seq[File]]("Generate data from YAML")
+      Seq(
+        Compile / sourceGenerators += generateData.taskValue,
+        generateData / fileInputs += baseDirectory.value.toGlob / "data" / "*.yml",
+        generateData / fileInputs += baseDirectory.value.toGlob / "scripts" / "gen.rb",
+        generateData := {
+          import scala.sys.process.Process
+          val file = (Compile / sourceManaged).value / "codes" / "quine" / "labo" / "lite" / "gimei" / "Data.scala"
+          val source = Process(Seq("ruby", (baseDirectory.value / "scripts" / "gen.rb").absolutePath)).!!
+          IO.write(file, source)
+          Seq(file)
+        }
+      )
+    }
+  )
+  .dependsOn(romaji)
 
 lazy val romaji = project
   .in(file("modules/lite-romaji"))
