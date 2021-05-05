@@ -2,7 +2,6 @@ package codes.quine.labo.lite.show
 
 import scala.annotation.switch
 import scala.annotation.tailrec
-import scala.language.reflectiveCalls
 
 import codes.quine.labo.lite.show.Frag._
 
@@ -44,7 +43,7 @@ object Conv {
             case Some(frags) => Some(frags)
           }
 
-      { v: Any => loop(pfs, v) }.unlift
+      (loop(pfs, _)).unlift
     }
 
     override def orElse(g: Conv): Conv = new Chain(convs :+ g)
@@ -70,8 +69,11 @@ object Conv {
       case '\r'     => "\\r"
       case '\t'     => "\\t"
       case '\u007F' => "\\u007F"
-      case c =>
-        if (c < ' ') f"\\u${c.toInt}%04X"
+      case c        =>
+        // On Scala 3.0.0-RC3 `f"\\"` returns `"\\\\"`.
+        // See https://github.com/lampepfl/dotty/issues/11750.
+        // The following concatenation is to avoid this.
+        if (c < ' ') "\\" + f"u${c.toInt}%04X"
         else c.toString
     }
 
@@ -122,19 +124,15 @@ object Conv {
 
   /** A converter for iterable values. */
   def iterable(maxSize: Int = 30): Conv = { rec =>
-    // Extracts a `toString` prefix of the given collection.
-    def stringPrefix(i: Iterable[_]): String =
-      i.asInstanceOf[{ def collectionClassName: String }].collectionClassName
-
     {
       case m: Map[_, _] =>
         buildApply(
-          stringPrefix(m),
+          Compat.stringPrefix(m),
           LazyList.from(m).map { case (k, v) => rec(k) ++ List(Lit(" -> ")) ++ rec(v) },
           maxSize
         )
       case i: Iterable[_] =>
-        buildApply(stringPrefix(i), LazyList.from(i).map(rec), maxSize)
+        buildApply(Compat.stringPrefix(i), LazyList.from(i).map(rec), maxSize)
     }
   }
 
