@@ -7,7 +7,7 @@
 
 ## Libraries
 
-- **lite-gimei**: A generator of Japanese dummy names and addresses with furigana.
+- [**lite-gimei**](modules/lite-gimei): A generator of Japanese dummy names and addresses with furigana.
 - **lite-romaji**: A romaji-kana bi-directional transliterator.
 - **lite-show**: A small pretty-print library.
 
