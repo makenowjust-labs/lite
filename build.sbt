@@ -3,6 +3,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 ThisBuild / organization := "codes.quine.labo"
 
 ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / crossScalaVersions := Seq("3.0.0-RC3", "2.13.5")
 ThisBuild / scalacOptions ++= Seq(
   "-encoding",
   "UTF-8",
