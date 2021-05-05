@@ -1,6 +1,16 @@
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / organization := "codes.quine.labo"
+ThisBuild / homepage := Some(url("https://github.com/MakeNowJust-Labo/lite"))
+ThisBuild / licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT"))
+ThisBuild / developers := List(
+  Developer(
+    "MakeNowJust",
+    "TSUYUSATO Kitsune",
+    "make.just.on@gmail.com",
+    url("https://quine.codes/")
+  )
+)
 
 ThisBuild / scalaVersion := "2.13.5"
 ThisBuild / crossScalaVersions := Seq("3.0.0-RC3", "2.13.5")
@@ -22,6 +32,7 @@ ThisBuild / scalafixDependencies += "com.github.vovapolu" %% "scaluzzi" % "0.1.1
 lazy val root = project
   .in(file("."))
   .settings(
+    sonatypeProfileName := "codes.quine",
     publish / skip := true,
     coverageEnabled := false
   )
