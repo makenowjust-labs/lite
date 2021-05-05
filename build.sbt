@@ -72,8 +72,10 @@ lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       )
     }
   )
-  .jsSettings(
-    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .nativeSettings(
+    crossScalaVersions := Seq("2.13.5"),
+    coverageEnabled := false
   )
   .dependsOn(romaji)
 
@@ -99,8 +101,10 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
     testFrameworks += new TestFramework("munit.Framework")
   )
-  .jsSettings(
-    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .nativeSettings(
+    crossScalaVersions := Seq("2.13.5"),
+    coverageEnabled := false
   )
 
 lazy val romajiJVM = romaji.jvm
@@ -125,8 +129,10 @@ lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
     testFrameworks += new TestFramework("munit.Framework")
   )
-  .jsSettings(
-    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .nativeSettings(
+    crossScalaVersions := Seq("2.13.5"),
+    coverageEnabled := false
   )
 
 lazy val showJVM = show.jvm
