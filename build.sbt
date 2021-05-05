@@ -36,9 +36,9 @@ lazy val root = project
     publish / skip := true,
     coverageEnabled := false
   )
-  .aggregate(gimei, show, romaji)
+  .aggregate(gimeiJVM, gimeiJS, romajiJVM, romajiJS, showJVM, showJS)
 
-lazy val gimei = project
+lazy val gimei = crossProject(JVMPlatform, JSPlatform)
   .in(file("modules/lite-gimei"))
   .settings(
     name := "lite-gimei",
@@ -53,28 +53,34 @@ lazy val gimei = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     // Generators:
     {
       val generateData = taskKey[Seq[File]]("Generate data from YAML")
       Seq(
         Compile / sourceGenerators += generateData.taskValue,
-        generateData / fileInputs += baseDirectory.value.toGlob / "data" / "*.yml",
-        generateData / fileInputs += baseDirectory.value.toGlob / "scripts" / "gen.rb",
+        generateData / fileInputs += baseDirectory.value.toGlob / ".." / "data" / "*.yml",
+        generateData / fileInputs += baseDirectory.value.toGlob / ".." / "scripts" / "gen.rb",
         generateData := {
           import scala.sys.process.Process
           val file = (Compile / sourceManaged).value / "codes" / "quine" / "labo" / "lite" / "gimei" / "Data.scala"
-          val source = Process(Seq("ruby", (baseDirectory.value / "scripts" / "gen.rb").absolutePath)).!!
+          val source = Process(Seq("ruby", (baseDirectory.value / ".." / "scripts" / "gen.rb").absolutePath)).!!
           IO.write(file, source)
           Seq(file)
         }
       )
     }
   )
+  .jsSettings(
+    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  )
   .dependsOn(romaji)
 
-lazy val romaji = project
+lazy val gimeiJVM = gimei.jvm
+lazy val gimeiJS = gimei.js
+
+lazy val romaji = crossProject(JVMPlatform, JSPlatform)
   .in(file("modules/lite-romaji"))
   .settings(
     name := "lite-romaji",
@@ -89,11 +95,17 @@ lazy val romaji = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
     testFrameworks += new TestFramework("munit.Framework")
   )
+  .jsSettings(
+    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  )
 
-lazy val show = project
+lazy val romajiJVM = romaji.jvm
+lazy val romajiJS = romaji.js
+
+lazy val show = crossProject(JVMPlatform, JSPlatform)
   .in(file("modules/lite-show"))
   .settings(
     name := "lite-show",
@@ -108,6 +120,12 @@ lazy val show = project
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
     testFrameworks += new TestFramework("munit.Framework")
   )
+  .jsSettings(
+    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  )
+
+lazy val showJVM = show.jvm
+lazy val showJS = show.js
