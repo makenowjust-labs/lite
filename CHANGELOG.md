@@ -1,3 +1,9 @@
+# 0.2.1 (2021-05-05)
+
+Fixes:
+
+- Fix Scala Native build
+
 # 0.2.0 (2021-05-05)
 
 Changes:
