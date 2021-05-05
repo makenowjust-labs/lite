@@ -43,7 +43,6 @@ class ConvSuite extends munit.FunSuite {
     assertEquals(Conv.number.toFunction(12: Short), List(Lit("12")))
     assertEquals(Conv.number.toFunction(12: Int), List(Lit("12")))
     assertEquals(Conv.number.toFunction(12L), List(Lit("12L")))
-    // TODO: add a test for `Float` value, but ScalaJS cannot distinguish between `Float` and `Double` values.
     assertEquals(Conv.number.toFunction(1.25), List(Lit("1.25")))
     assertEquals(Conv.number.toFunction(12: BigInt), List(Lit("12")))
     assertEquals(Conv.number.toFunction(12: BigDecimal), List(Lit("12")))
