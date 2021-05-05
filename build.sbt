@@ -36,7 +36,7 @@ lazy val root = project
     publish / skip := true,
     coverageEnabled := false
   )
-  .aggregate(gimeiJVM, gimeiJS, romajiJVM, romajiJS, showJVM, showJS)
+  .aggregate(gimeiJVM, gimeiJS, gimeiNative, romajiJVM, romajiJS, romajiNative, showJVM, showJS, showNative)
 
 lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-gimei"))
