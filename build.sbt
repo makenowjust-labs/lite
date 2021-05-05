@@ -38,7 +38,7 @@ lazy val root = project
   )
   .aggregate(gimeiJVM, gimeiJS, romajiJVM, romajiJS, showJVM, showJS)
 
-lazy val gimei = crossProject(JVMPlatform, JSPlatform)
+lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-gimei"))
   .settings(
     name := "lite-gimei",
@@ -79,8 +79,9 @@ lazy val gimei = crossProject(JVMPlatform, JSPlatform)
 
 lazy val gimeiJVM = gimei.jvm
 lazy val gimeiJS = gimei.js
+lazy val gimeiNative = gimei.native
 
-lazy val romaji = crossProject(JVMPlatform, JSPlatform)
+lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-romaji"))
   .settings(
     name := "lite-romaji",
@@ -104,8 +105,9 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform)
 
 lazy val romajiJVM = romaji.jvm
 lazy val romajiJS = romaji.js
+lazy val romajiNative = romaji.native
 
-lazy val show = crossProject(JVMPlatform, JSPlatform)
+lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-show"))
   .settings(
     name := "lite-show",
@@ -129,3 +131,4 @@ lazy val show = crossProject(JVMPlatform, JSPlatform)
 
 lazy val showJVM = show.jvm
 lazy val showJS = show.js
+lazy val showNative = show.native
