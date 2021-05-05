@@ -66,6 +66,6 @@ address.town.toKanji
 // res13: String = "温泉"
 ```
 
-## License
+## Note
 
 The original dictionary YAML file is generated from [naist-jdic](https://ja.osdn.net/projects/naist-jdic/).
