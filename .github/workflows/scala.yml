@@ -23,7 +23,7 @@ jobs:
         if: matrix.scala == '2.13.5' && matrix.platform == 'JVM'
         run: sbt ++${{ matrix.scala }} coverage testJVM coverageAggregate
       - name: Test
-        if: !(matrix.scala == '2.13.5' && matrix.platform == 'JVM')
+        if: "!(matrix.scala == '2.13.5' && matrix.platform == 'JVM')"
         run: sbt ++${{ matrix.scala }} test${{ matrix.platform }}
       - name: Format and Lint
         if: matrix.scala == '2.13.5' && matrix.platform == 'JVM'
