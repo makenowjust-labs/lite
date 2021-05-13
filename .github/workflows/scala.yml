@@ -10,7 +10,7 @@ jobs:
         scala: [ 2.13.5, 3.0.0 ]
         platform: [JVM, JS, Native]
         exclude:
-          - scala: 3.0.0-RC3
+          - scala: 3.0.0
             platform: native
     runs-on: ubuntu-20.04
     name: Scala CI
