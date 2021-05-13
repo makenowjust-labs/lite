@@ -36,7 +36,10 @@ lazy val root = project
     publish / skip := true,
     coverageEnabled := false
   )
-  .aggregate(gimeiJVM, gimeiJS, gimeiNative, romajiJVM, romajiJS, romajiNative, showJVM, showJS, showNative)
+  .aggregate(gimeiJVM, gimeiJS, gimeiNative)
+  .aggregate(graphemeJVM, graphemeJS, graphemeNative)
+  .aggregate(romajiJVM, romajiJS, romajiNative)
+  .aggregate(showJVM, showJS, showNative)
 
 lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-gimei"))
@@ -55,6 +58,7 @@ lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     // Settings for test:
     libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
+    coverageExcludedPackages := "<empty>;codes\\.quine\\.labo\\.lite\\.gimei\\.Data.*",
     // Generators:
     {
       val generateData = taskKey[Seq[File]]("Generate data from YAML")
@@ -82,6 +86,66 @@ lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 lazy val gimeiJVM = gimei.jvm
 lazy val gimeiJS = gimei.js
 lazy val gimeiNative = gimei.native
+
+lazy val grapheme = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .in(file("modules/lite-grapheme"))
+  .settings(
+    name := "lite-grapheme",
+    console / initialCommands :=
+      """|import codes.quine.labo.lite.grapheme._
+         |""".stripMargin,
+    Compile / console / scalacOptions -= "-Wunused",
+    Test / console / scalacOptions -= "-Wunused",
+    // Set URL mapping of scala standard API for Scaladoc.
+    apiMappings ++= scalaInstance.value.libraryJars
+      .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
+      .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
+      .toMap,
+    // Settings for test:
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
+    testFrameworks += new TestFramework("munit.Framework"),
+    coverageExcludedPackages := "<empty>;codes\\.quine\\.labo\\.lite\\.grapheme\\.Data.*",
+    // Generators:
+    {
+      val generateData = taskKey[Seq[File]]("Generate data from UCD text")
+      Seq(
+        Compile / sourceGenerators += generateData.taskValue,
+        generateData / fileInputs += baseDirectory.value.toGlob / ".." / "data" / "*.txt",
+        generateData / fileInputs += baseDirectory.value.toGlob / ".." / "scripts" / "gen.rb",
+        generateData := {
+          import scala.sys.process.Process
+          val file = (Compile / sourceManaged).value / "codes" / "quine" / "labo" / "lite" / "grapheme" / "Data.scala"
+          val source = Process(Seq("ruby", (baseDirectory.value / ".." / "scripts" / "gen.rb").absolutePath)).!!
+          IO.write(file, source)
+          Seq(file)
+        }
+      )
+    }, {
+      val generateTest = taskKey[Seq[File]]("Generate text from UCD text")
+      Seq(
+        Test / sourceGenerators += generateTest.taskValue,
+        generateTest / fileInputs += baseDirectory.value.toGlob / ".." / "data" / "*.txt",
+        generateTest / fileInputs += baseDirectory.value.toGlob / ".." / "scripts" / "gen-test.rb",
+        generateTest := {
+          import scala.sys.process.Process
+          val file =
+            (Compile / sourceManaged).value / "codes" / "quine" / "labo" / "lite" / "grapheme" / "GraphemeBreakTestSuite.scala"
+          val source = Process(Seq("ruby", (baseDirectory.value / ".." / "scripts" / "gen-test.rb").absolutePath)).!!
+          IO.write(file, source)
+          Seq(file)
+        }
+      )
+    }
+  )
+  .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .nativeSettings(
+    crossScalaVersions := Seq("2.13.5"),
+    coverageEnabled := false
+  )
+
+lazy val graphemeJVM = grapheme.jvm
+lazy val graphemeJS = grapheme.js
+lazy val graphemeNative = grapheme.native
 
 lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-romaji"))
