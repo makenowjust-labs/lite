@@ -41,6 +41,10 @@ lazy val root = project
   .aggregate(romajiJVM, romajiJS, romajiNative)
   .aggregate(showJVM, showJS, showNative)
 
+addCommandAlias("testJVM", "gimeiJVM/test; graphemeJVM/test; romajiJVM/test; showJVM/test")
+addCommandAlias("testJS", "gimeiJS/test; graphemeJS/test; romajiJS/test; showJS/test")
+addCommandAlias("testNative", "gimeiNative/test; graphemeNative/test; romajiNative/test; showNative/test")
+
 lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-gimei"))
   .settings(
