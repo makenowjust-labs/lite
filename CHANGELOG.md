@@ -1,3 +1,13 @@
+# dev
+
+Fixes:
+
+- Update sbt-scoverage to 1.7.3 ([#8](https://github.com/MakeNowJust-Labo/lite/pull/8))
+
+Changes:
+
+- `lite-grapheme`: Initial release ([#9](https://github.com/MakeNowJust-Labo/lite/pull/9))
+
 # 0.2.1 (2021-05-05)
 
 Fixes:
