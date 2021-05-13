@@ -8,6 +8,7 @@
 ## Libraries
 
 - [**lite-gimei**](modules/lite-gimei): A generator of Japanese dummy names and addresses with furigana.
+- [**lite-grapheme**](modules/lite-grapheme): Iterates the given string on each grapheme cluster.
 - [**lite-romaji**](modules/lite-romaji): A romaji-kana bi-directional transliterator.
 - [**lite-show**](modules/lite-show): A small pretty-print library.
 
