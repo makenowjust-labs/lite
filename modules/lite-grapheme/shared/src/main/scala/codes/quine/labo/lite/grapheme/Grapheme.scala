@@ -295,7 +295,7 @@ object Grapheme {
 
   /** Executes the reversed transition function on the given string from the index and the state. */
   @tailrec
-  def execReversedTransition(s: String, state: Set[State], index: Int, last: Int): Int =
+  private def execReversedTransition(s: String, state: Set[State], index: Int, last: Int): Int =
     if (index <= 0) last
     else {
       val cp = s.codePointBefore(index)

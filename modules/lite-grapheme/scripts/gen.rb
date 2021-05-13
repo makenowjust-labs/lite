@@ -41,7 +41,7 @@ puts
 puts '/** Data contains auto generated data constants. */'
 puts 'object Data {'
 
-puts '  final val CodePoints: IndexedSeq[(Int, Int, Property)] = IndexedSeq('
+puts '  final val CodePoints: IndexedSeq[(Int, Int, Property)] = IndexedSeq[(Int, Int, Property)]('
 data.each do |i, j, value, comment|
   puts "    (0x#{i.to_s(16)}, 0x#{j.to_s(16)}, #{value}), // #{comment}"
 end
