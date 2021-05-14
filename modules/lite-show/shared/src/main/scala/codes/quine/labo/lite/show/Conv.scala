@@ -70,7 +70,7 @@ object Conv {
       case '\t'     => "\\t"
       case '\u007F' => "\\u007F"
       case c        =>
-        // On Scala 3.0.0-RC3 `f"\\"` returns `"\\\\"`.
+        // On Scala 3.0.0 `f"\\"` returns `"\\\\"`.
         // See https://github.com/lampepfl/dotty/issues/11750.
         // The following concatenation is to avoid this.
         if (c < ' ') "\\" + f"u${c.toInt}%04X"
