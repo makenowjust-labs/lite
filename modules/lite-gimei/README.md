@@ -11,7 +11,7 @@ It is also a port of Ruby's [`gimei`](https://github.com/willnet/gimei) library.
 Insert the following to your `build.sbt`.
 
 ```sbt
-libraryDependencies += "codes.quine.labo" %% "lite-gimei" % "0.2.1"
+libraryDependencies += "codes.quine.labo" %% "lite-gimei" % "0.3.0"
 ```
 
 ## Usage

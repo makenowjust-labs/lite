@@ -9,7 +9,7 @@
 Insert the following to your `build.sbt`.
 
 ```sbt
-libraryDependencies += "codes.quine.labo" %% "lite-show" % "0.2.1"
+libraryDependencies += "codes.quine.labo" %% "lite-show" % "0.3.0"
 ```
 
 ## Usage
