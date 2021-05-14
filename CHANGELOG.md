@@ -7,6 +7,7 @@ Fixes:
 Changes:
 
 - `lite-grapheme`: Initial release ([#9](https://github.com/MakeNowJust-Labo/lite/pull/9))
+- Support Scala 3.0.0
 
 # 0.2.1 (2021-05-05)
 
