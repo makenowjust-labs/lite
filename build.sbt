@@ -60,7 +60,7 @@ lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     coverageExcludedPackages := "<empty>;codes\\.quine\\.labo\\.lite\\.gimei\\.Data.*",
     // Generators:
@@ -106,7 +106,7 @@ lazy val grapheme = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
     coverageExcludedPackages := "<empty>;codes\\.quine\\.labo\\.lite\\.grapheme\\.Data.*",
     // Generators:
@@ -166,7 +166,7 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework")
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
@@ -194,7 +194,7 @@ lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
       .toMap,
     // Settings for test:
-    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.25" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.26" % Test,
     testFrameworks += new TestFramework("munit.Framework")
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
