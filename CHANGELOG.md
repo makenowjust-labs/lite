@@ -3,6 +3,7 @@
 Changes:
 
 - Support Scala 2.13.6
+- `lite-diff`: Initial release
 
 # 0.3.0 (2021-05-14)
 
