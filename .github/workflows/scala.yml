@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scala: [ 2.13.5, 3.0.0 ]
+        scala: [ 2.13.6, 3.0.0 ]
         platform: [JVM, JS, Native]
         exclude:
           - scala: 3.0.0
@@ -20,13 +20,13 @@ jobs:
         with:
           java-version: adopt@1.14
       - name: Test with Coverage
-        if: matrix.scala == '2.13.5' && matrix.platform == 'JVM'
+        if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'
         run: sbt ++${{ matrix.scala }} coverage testJVM coverageAggregate
       - name: Test
-        if: "!(matrix.scala == '2.13.5' && matrix.platform == 'JVM')"
+        if: "!(matrix.scala == '2.13.6' && matrix.platform == 'JVM')"
         run: sbt ++${{ matrix.scala }} test${{ matrix.platform }}
       - name: Format and Lint
-        if: matrix.scala == '2.13.5' && matrix.platform == 'JVM'
+        if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'
         run: sbt ++${{ matrix.scala }} scalafmtCheckAll scalafmtSbtCheck 'scalafixAll --check'
       - uses: codecov/codecov-action@v1
-        if: matrix.scala == '2.13.5' && matrix.platform == 'JVM'
+        if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'

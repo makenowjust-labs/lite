@@ -12,8 +12,8 @@ ThisBuild / developers := List(
   )
 )
 
-ThisBuild / scalaVersion := "2.13.5"
-ThisBuild / crossScalaVersions := Seq("3.0.0", "2.13.5")
+ThisBuild / scalaVersion := "2.13.6"
+ThisBuild / crossScalaVersions := Seq("3.0.0", "2.13.6")
 ThisBuild / scalacOptions ++= Seq(
   "-encoding",
   "UTF-8",
@@ -82,7 +82,7 @@ lazy val gimei = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
   .nativeSettings(
-    crossScalaVersions := Seq("2.13.5"),
+    crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
   .dependsOn(romaji)
@@ -143,7 +143,7 @@ lazy val grapheme = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
   .nativeSettings(
-    crossScalaVersions := Seq("2.13.5"),
+    crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
 
@@ -171,7 +171,7 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
   .nativeSettings(
-    crossScalaVersions := Seq("2.13.5"),
+    crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
 
@@ -199,7 +199,7 @@ lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
   .nativeSettings(
-    crossScalaVersions := Seq("2.13.5"),
+    crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
 
