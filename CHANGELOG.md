@@ -2,9 +2,11 @@
 
 Changes:
 
-- Support Scala 2.13.6
-- Support Scala 3.0.1
 - `lite-diff`: Initial release ([#16](https://github.com/MakeNowJust-Labo/lite/pull/16))
+- Support Scala 2.13.6
+- Support Scala 3.0.1 ([#23](https://github.com/MakeNowJust-Labo/lite/pull/23))
+- Update sbt to 1.5.5 ([#24](https://github.com/MakeNowJust-Labo/lite/pull/24))
+- Update sbt-scalafmt to 2.4.3 ([#25](https://github.com/MakeNowJust-Labo/lite/pull/25))
 
 # 0.3.0 (2021-05-14)
 
