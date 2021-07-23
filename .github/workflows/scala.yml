@@ -7,10 +7,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scala: [ 2.13.6, 3.0.0 ]
+        scala: [ 2.13.6, 3.0.1 ]
         platform: [JVM, JS, Native]
         exclude:
-          - scala: 3.0.0
+          - scala: 3.0.1
             platform: native
     runs-on: ubuntu-20.04
     name: Scala CI
