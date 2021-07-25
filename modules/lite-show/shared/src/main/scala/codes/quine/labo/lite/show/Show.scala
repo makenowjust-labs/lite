@@ -10,6 +10,6 @@ class Show private (conv: Conv.Rec, width: Int, indentSize: Int) {
 object Show extends Show(Conv.default().toFunction, 80, 2) {
 
   /** Builds a new Show instance on the given configuration. */
-  def apply(conv: Conv = Conv.default(), width: Int = 80, indentSize: Int = 2): Show =
-    new Show(conv.toFunction, width, indentSize)
+  def apply(conv: Conv.Rec = Conv.default().toFunction, width: Int = 80, indentSize: Int = 2): Show =
+    new Show(conv, width, indentSize)
 }

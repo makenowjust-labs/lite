@@ -50,7 +50,7 @@ object Conv {
   }
 
   /** Builds fragments look like `apply` syntax. */
-  private def buildApply(name: String, values: LazyList[List[Frag]], maxSize: Int = Int.MaxValue): List[Frag] =
+  def buildApply(name: String, values: LazyList[List[Frag]], maxSize: Int = Int.MaxValue): List[Frag] =
     if (values.isEmpty) List(Lit(s"$name()"))
     else {
       val v = values.head

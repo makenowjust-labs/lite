@@ -82,7 +82,9 @@ lazy val delta = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(
     name := "lite-delta",
     console / initialCommands :=
-      """|import codes.quine.labo.lite.delta._
+      """|import codes.quine.labo.lite.show._
+         |
+         |import codes.quine.labo.lite.delta._
          |""".stripMargin,
     Compile / console / scalacOptions -= "-Wunused",
     Test / console / scalacOptions -= "-Wunused",
@@ -100,6 +102,7 @@ lazy val delta = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
+  .dependsOn(show)
 
 lazy val deltaJVM = delta.jvm
 lazy val deltaJS = delta.js

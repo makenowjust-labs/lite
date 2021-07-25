@@ -14,6 +14,7 @@ class FragSuite extends munit.FunSuite {
 
   test("Frag.render") {
     assertEquals(Frag.render(List(Lit("x"))), "x")
+    assertEquals(Frag.render(List(Lit("x", true))), "x")
     assertEquals(Frag.render(List(Lit("x"), Line, Lit("y"))), "x\ny")
     assertEquals(Frag.render(List(Lit("x"), Indent(List(Line, Lit("y"))))), "x\n  y")
     assertEquals(Frag.render(List(Lit("x"), Indent(List(Line, Lit("y")))), indentSize = 3), "x\n   y")
@@ -21,6 +22,7 @@ class FragSuite extends munit.FunSuite {
     assertEquals(Frag.render(List(Group(List(Lit("xxx"), Break, Lit("yyy"))))), "xxxyyy")
     assertEquals(Frag.render(List(Group(List(Lit("xxx"), Line, Lit("yyy")))), width = 2), "xxx\nyyy")
     assertEquals(Frag.render(List(Group(List(Lit("xxx"), Break, Lit("yyy")))), width = 2), "xxx\nyyy")
+    assertEquals(Frag.render(List(Group(List(Lit("xx", true), Break, Lit("y")))), width = 2), "xxy")
     assertEquals(Frag.render(List(Group(List(Wide("xxx"), Break, Lit("yyy"))))), "yyy")
     assertEquals(Frag.render(List(Group(List(Wide("xxx"), Break, Lit("yyy")))), width = 2), "xxx\nyyy")
     assertEquals(Frag.render(List(Group(List(Lit("xxx"))), Line)), "xxx\n")
