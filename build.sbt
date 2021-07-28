@@ -260,6 +260,7 @@ lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
+  .dependsOn(pfix)
 
 lazy val showJVM = show.jvm
 lazy val showJS = show.js
