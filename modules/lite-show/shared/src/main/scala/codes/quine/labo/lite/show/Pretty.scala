@@ -2,51 +2,51 @@ package codes.quine.labo.lite.show
 
 import scala.annotation.tailrec
 
-/** Frag is a fragment of pretty-printed string. */
-sealed abstract class Frag extends Product with Serializable {
+/** Pretty is a fragment of pretty-printed string. */
+sealed abstract class Pretty extends Product with Serializable {
 
   /** Converts this into a compact form. */
-  protected[show] def toCompact: List[Frag.Lit]
+  protected[show] def toCompact: Seq[Pretty.Lit]
 }
 
-object Frag {
+object Pretty {
 
   /** Line is a line fragment. Its compact form is a single whitespace. */
-  case object Line extends Frag {
-    protected[show] def toCompact: List[Lit] = List(Lit(" "))
+  case object Line extends Pretty {
+    protected[show] def toCompact: Seq[Lit] = List(Lit(" "))
   }
 
   /** Break is a line-break fragment. Its compact form is empty. */
-  case object Break extends Frag {
-    protected[show] def toCompact: List[Lit] = List.empty
+  case object Break extends Pretty {
+    protected[show] def toCompact: Seq[Lit] = List.empty
   }
 
   /** Lit is a literal string fragment. */
-  final case class Lit(content: String) extends Frag {
-    protected[show] def toCompact: List[Lit] = List(this)
+  final case class Lit(content: String) extends Pretty {
+    protected[show] def toCompact: Seq[Lit] = List(this)
   }
 
   /** Wide is a literal string fragment only for wide rendering. */
-  final case class Wide(content: String) extends Frag {
-    protected[show] def toCompact: List[Lit] = List.empty
+  final case class Wide(content: String) extends Pretty {
+    protected[show] def toCompact: Seq[Lit] = List.empty
   }
 
   /** Indent is a fragment to increase indentation in its fragments. */
-  final case class Indent(frags: List[Frag]) extends Frag {
-    protected[show] def toCompact: List[Lit] = frags.flatMap(_.toCompact)
+  final case class Indent(frags: Seq[Pretty]) extends Pretty {
+    protected[show] def toCompact: Seq[Lit] = frags.flatMap(_.toCompact)
   }
 
   /** Group is a group of fragments to control line breaks. */
-  final case class Group(frags: List[Frag]) extends Frag {
-    protected[show] def toCompact: List[Lit] = frags.flatMap(_.toCompact)
+  final case class Group(frags: Seq[Pretty]) extends Pretty {
+    protected[show] def toCompact: Seq[Lit] = frags.flatMap(_.toCompact)
   }
 
   /** Renders fragments by fitting the specified width. */
-  def render(frags: List[Frag], width: Int = 80, indentSize: Int = 2): String = {
+  def render(frags: Seq[Pretty], width: Int = 80, indentSize: Int = 2): String = {
 
     // Tests the given stack can fit the width starting from the column.
     @tailrec
-    def fits(column: Int, stack: List[(Int, List[Frag])]): Boolean =
+    def fits(column: Int, stack: Seq[(Int, Seq[Pretty])]): Boolean =
       if (column > width) false
       else
         stack match {
@@ -69,7 +69,7 @@ object Frag {
     // A main loop for rendering.
     // The first value of stack item is the current indentation size, and the second is fragments.
     @tailrec
-    def loop(column: Int, stack: List[(Int, List[Frag])]): Unit =
+    def loop(column: Int, stack: List[(Int, Seq[Pretty])]): Unit =
       stack match {
         case Nil => ()
         case (indent, top) :: remain =>

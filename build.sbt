@@ -205,6 +205,33 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
+lazy val pfix = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .in(file("modules/lite-pfix"))
+  .settings(
+    name := "lite-pfix",
+    console / initialCommands :=
+      """|import codes.quine.labo.lite.pfix._
+         |""".stripMargin,
+    Compile / console / scalacOptions -= "-Wunused",
+    Test / console / scalacOptions -= "-Wunused",
+    // Set URL mapping of scala standard API for Scaladoc.
+    apiMappings ++= scalaInstance.value.libraryJars
+      .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
+      .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
+      .toMap,
+    // Settings for test:
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.27" % Test,
+    testFrameworks += new TestFramework("munit.Framework")
+  )
+  .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .nativeSettings(
+    crossScalaVersions := Seq("2.13.6"),
+    coverageEnabled := false
+  )
+
+lazy val pfixJVM = pfix.jvm
+lazy val pfixJS = pfix.js
+lazy val pfixNative = pfix.native
 
 lazy val romajiJVM = romaji.jvm
 lazy val romajiJS = romaji.js
@@ -233,6 +260,7 @@ lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
+  .dependsOn(pfix)
 
 lazy val showJVM = show.jvm
 lazy val showJS = show.js
