@@ -1,8 +1,8 @@
 package codes.quine.labo.lite.show
 
-import codes.quine.labo.lite.pfix.PFix
-
 import scala.annotation.switch
+
+import codes.quine.labo.lite.pfix.PFix
 import codes.quine.labo.lite.show.Pretty._
 
 /** Prettify is a function for converting any objects into fragments. */
@@ -23,7 +23,7 @@ object Prettify {
   }
 
   /** GenOps provides `toPrettify` method into `Gen` instance. */
-  implicit class GenOps(val g: Gen) extends AnyVal {
+  implicit class GenOps(private val g: Gen) extends AnyVal {
 
     /** Converts a generator into a prettify function. */
     def toPrettify: Prettify = {
