@@ -205,6 +205,11 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     crossScalaVersions := Seq("2.13.6"),
     coverageEnabled := false
   )
+
+lazy val romajiJVM = romaji.jvm
+lazy val romajiJS = romaji.js
+lazy val romajiNative = romaji.native
+
 lazy val pfix = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-pfix"))
   .settings(
@@ -232,10 +237,6 @@ lazy val pfix = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 lazy val pfixJVM = pfix.jvm
 lazy val pfixJS = pfix.js
 lazy val pfixNative = pfix.native
-
-lazy val romajiJVM = romaji.jvm
-lazy val romajiJS = romaji.js
-lazy val romajiNative = romaji.native
 
 lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-show"))
