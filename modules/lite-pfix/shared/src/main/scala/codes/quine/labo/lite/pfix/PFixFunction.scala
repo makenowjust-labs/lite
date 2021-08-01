@@ -7,7 +7,7 @@ private class PFixFunction[A, B](
 ) extends (A => B) { fix =>
 
   /** A list of partial functions obtained by fixpoint functions. */
-  protected val pfs = fs.map(f => f(fix))
+  protected val pfs: Vector[PartialFunction[A,B]] = fs.map(f => f(fix))
 
   override def apply(x: A): B = {
     for (pf <- pfs) {

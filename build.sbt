@@ -29,7 +29,7 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
 ThisBuild / scalafixDependencies += "com.github.vovapolu" %% "scaluzzi" % "0.1.18"
 
-val crossProjectNames = Seq("diff", "gimei", "grapheme", "romaji", "show")
+val crossProjectNames = Seq("crazy", "diff", "gimei", "grapheme", "pfix", "romaji", "show")
 val platformSuffices = Seq("JVM", "JS", "Native")
 platformSuffices.flatMap { platform =>
   addCommandAlias(s"test$platform", crossProjectNames.map(name => s"$name$platform/test").mkString("; "))
@@ -42,11 +42,41 @@ lazy val root = project
     publish / skip := true,
     coverageEnabled := false
   )
+  .aggregate(crazyJVM, crazyJS, crazyNative)
   .aggregate(diffJVM, diffJS, diffNative)
   .aggregate(gimeiJVM, gimeiJS, gimeiNative)
   .aggregate(graphemeJVM, graphemeJS, graphemeNative)
   .aggregate(romajiJVM, romajiJS, romajiNative)
+  .aggregate(pfixJVM, pfixJS, pfixNative)
   .aggregate(showJVM, showJS, showNative)
+
+lazy val crazy = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .in(file("modules/lite-crazy"))
+  .settings(
+    name := "lite-crazy",
+    console / initialCommands :=
+      """|import codes.quine.labo.lite.crazy._
+         |""".stripMargin,
+    Compile / console / scalacOptions -= "-Wunused",
+    Test / console / scalacOptions -= "-Wunused",
+    // Set URL mapping of scala standard API for Scaladoc.
+    apiMappings ++= scalaInstance.value.libraryJars
+      .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
+      .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
+      .toMap,
+    // Settings for test:
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.27" % Test,
+    testFrameworks += new TestFramework("munit.Framework")
+  )
+  .jsSettings(Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .nativeSettings(
+    crossScalaVersions := Seq("2.13.6"),
+    coverageEnabled := false
+  )
+
+lazy val crazyJVM = crazy.jvm
+lazy val crazyJS = crazy.js
+lazy val crazyNative = crazy.native
 
 lazy val diff = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-diff"))
