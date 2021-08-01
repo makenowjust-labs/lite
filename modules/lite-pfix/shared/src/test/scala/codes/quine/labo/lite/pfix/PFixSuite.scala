@@ -40,7 +40,8 @@ class PFixSuite extends munit.FunSuite {
     val pfix = PFix.from[Int, Int] { case n if n > 0 => n * 2 }
     val pf = pfix.toPartialFunction
     assertEquals(pf(1), 2)
-    interceptMessage[MatchError]("-1 (of class java.lang.Integer)")(pf(-1))
+    val err = intercept[MatchError](pf(-1))
+    assert(err.getMessage().contains("-1"))
     assertEquals(pf.isDefinedAt(1), true)
     assertEquals(pf.isDefinedAt(-1), false)
   }
