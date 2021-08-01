@@ -59,8 +59,11 @@ class TardisSuite extends munit.FunSuite {
       Mov
     )
 
+    val (lb, lf, lis) = assemble(0, input).run(Map.empty[String, Int], Map.empty[String, Int])
+    assertEquals(lb.value, Map("my_label" -> 5, "second_label" -> 5))
+    assertEquals(lf.value, Map("my_label" -> 5, "second_label" -> 5))
     assertEquals(
-      assemble(0, input).run(Map.empty[String, Int], Map.empty[String, Int])._3.value,
+      lis.value,
       List(
         (0, Add),
         (1, Add),
@@ -72,5 +75,29 @@ class TardisSuite extends munit.FunSuite {
         (7, Mov)
       )
     )
+  }
+
+  test("Tardis.putBackward") {
+    val program: Tardis[Int, Int, (Int, Int, Int)] = for {
+      s1 <- Tardis.getBackward[Int, Int]
+      _ <- Tardis.putBackward[Int, Int](Lazy(1))
+      s2 <- Tardis.getBackward[Int, Int]
+      _ <- Tardis.putBackward[Int, Int](Lazy(2))
+      s3 <- Tardis.getBackward[Int, Int]
+    } yield Lazy((s1.value, s2.value, s3.value))
+    val (_, _, ls123) = program.run(Lazy(3), Lazy(0))
+    assertEquals(ls123.value, (1, 2, 3))
+  }
+
+  test("Tardis.putForward") {
+    val program: Tardis[Int, Int, (Int, Int, Int)] = for {
+      s1 <- Tardis.getForward[Int, Int]
+      _ <- Tardis.putForward[Int, Int](Lazy(2))
+      s2 <- Tardis.getForward[Int, Int]
+      _ <- Tardis.putForward[Int, Int](Lazy(3))
+      s3 <- Tardis.getForward[Int, Int]
+    } yield Lazy((s1.value, s2.value, s3.value))
+    val (_, _, ls123) = program.run(Lazy(0), Lazy(1))
+    assertEquals(ls123.value, (1, 2, 3))
   }
 }
