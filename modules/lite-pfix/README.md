@@ -9,7 +9,7 @@
 Insert the following to your `build.sbt`.
 
 ```sbt
-libraryDependencies += "codes.quine.labo" %% "lite-pfix" % "0.3.0"
+libraryDependencies += "codes.quine.labo" %% "lite-pfix" % "<latest version>"
 ```
 
 ## Usage
