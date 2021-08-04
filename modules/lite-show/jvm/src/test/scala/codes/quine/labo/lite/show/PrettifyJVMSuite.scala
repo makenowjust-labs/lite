@@ -1,6 +1,6 @@
 package codes.quine.labo.lite.show
 
-import codes.quine.labo.lite.show.Prettify.GenOps
+import codes.quine.labo.lite.show.Prettify.PrettifyGenOps
 import codes.quine.labo.lite.show.Pretty._
 
 class PrettifyJVMSuite extends munit.FunSuite {

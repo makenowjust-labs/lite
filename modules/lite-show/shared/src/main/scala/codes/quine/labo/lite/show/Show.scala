@@ -1,6 +1,6 @@
 package codes.quine.labo.lite.show
 
-import codes.quine.labo.lite.show.Prettify.GenOps
+import codes.quine.labo.lite.show.Prettify.PrettifyGenOps
 
 /** Show is a frontend to show any values. */
 class Show private (prettify: Prettify, width: Int, indentSize: Int) {

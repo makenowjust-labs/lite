@@ -1,6 +1,6 @@
 package codes.quine.labo.lite.show
 
-import codes.quine.labo.lite.show.Prettify.GenOps
+import codes.quine.labo.lite.show.Prettify.PrettifyGenOps
 import codes.quine.labo.lite.show.Pretty._
 
 class PrettifySuite extends munit.FunSuite {
@@ -72,7 +72,16 @@ class PrettifySuite extends munit.FunSuite {
     )
     assertEquals(
       Prettify.product.toPrettify((1, 2)),
-      Seq(Group(Seq(Lit("("), Indent(Seq(Break, Lit("1"), Lit(","), Line, Lit("2"))), Break, Lit(")"))))
+      Seq(
+        Group(
+          Seq(
+            Lit("("),
+            Indent(Seq(Break, Wide("_1 = "), Lit("1"), Lit(","), Line, Wide("_2 = "), Lit("2"))),
+            Break,
+            Lit(")")
+          )
+        )
+      )
     )
   }
 }

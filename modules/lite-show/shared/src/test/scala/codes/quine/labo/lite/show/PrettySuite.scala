@@ -14,6 +14,7 @@ class PrettySuite extends munit.FunSuite {
 
   test("Pretty.render") {
     assertEquals(Pretty.render(Seq(Lit("x"))), "x")
+    assertEquals(Pretty.render(Seq(Lit("x", true))), "x")
     assertEquals(Pretty.render(Seq(Lit("x"), Line, Lit("y"))), "x\ny")
     assertEquals(Pretty.render(Seq(Lit("x"), Indent(Seq(Line, Lit("y"))))), "x\n  y")
     assertEquals(Pretty.render(Seq(Lit("x"), Indent(Seq(Line, Lit("y")))), indentSize = 3), "x\n   y")
@@ -23,6 +24,7 @@ class PrettySuite extends munit.FunSuite {
     assertEquals(Pretty.render(Seq(Group(Seq(Lit("xxx"), Break, Lit("yyy")))), width = 2), "xxx\nyyy")
     assertEquals(Pretty.render(Seq(Group(Seq(Wide("xxx"), Break, Lit("yyy"))))), "yyy")
     assertEquals(Pretty.render(Seq(Group(Seq(Wide("xxx"), Break, Lit("yyy")))), width = 2), "xxx\nyyy")
+    assertEquals(Pretty.render(Seq(Group(Seq(Lit("xx", true), Break, Lit("y")))), width = 2), "xxy")
     assertEquals(Pretty.render(Seq(Group(Seq(Lit("xxx"))), Line)), "xxx\n")
     assertEquals(Pretty.render(Seq(Group(Seq(Lit("xxx"))), Break)), "xxx\n")
     assertEquals(Pretty.render(Seq(Group(Seq(Lit("xxx"))), Wide("yyy"))), "xxxyyy")
