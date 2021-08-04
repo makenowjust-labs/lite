@@ -1,6 +1,6 @@
 # lite-delta
 
-> Computes a difference between two any values.
+> Computes a structual diff between two values.
 
 [![Maven Central](https://img.shields.io/maven-central/v/codes.quine.labo/lite-delta_2.13?logo=scala&style=for-the-badge)](https://search.maven.org/artifact/codes.quine.labo/lite-delta_2.13)
 

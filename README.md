@@ -8,6 +8,7 @@
 ## Libraries
 
 - [**lite-crazy**](modules/lite-crazy): A lazy-evaluated value cell and time travelling state monads implementations.
+- [**lite-delta**](modules/lite-delta): Computes a structual diff between two values.
 - [**lite-gestalt**](modules/lite-gestalt): Computes a diff between two sequences by using Gestalt Pattern Matching.
 - [**lite-gimei**](modules/lite-gimei): A generator of Japanese dummy names and addresses with furigana.
 - [**lite-grapheme**](modules/lite-grapheme): Iterates the given string on each grapheme cluster.
