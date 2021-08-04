@@ -3,8 +3,9 @@ package codes.quine.labo.lite.delta
 import codes.quine.labo.lite.delta.Key.KeyGenOps
 import codes.quine.labo.lite.gestalt.Gestalt
 import codes.quine.labo.lite.pfix.PFix
-import codes.quine.labo.lite.show.{Prettify, Pretty}
+import codes.quine.labo.lite.show.Prettify
 import codes.quine.labo.lite.show.Prettify.PrettifyGenOps
+import codes.quine.labo.lite.show.Pretty
 
 /** Diff is a function for computing a difference between two vales. */
 trait Diff extends ((Any, Any) => Delta) {

@@ -1,6 +1,9 @@
 package codes.quine.labo.lite.delta
 
-import scala.io.AnsiColor.{RED, GREEN, RESET}
+import scala.io.AnsiColor.GREEN
+import scala.io.AnsiColor.RED
+import scala.io.AnsiColor.RESET
+
 import codes.quine.labo.lite.show.Prettify
 import codes.quine.labo.lite.show.Prettify.PrettifyGenOps
 import codes.quine.labo.lite.show.Pretty._
@@ -8,8 +11,8 @@ import codes.quine.labo.lite.show.Pretty._
 class DeltaSuite extends munit.FunSuite {
   test("Delta.diff: example") {
     sealed abstract class FooBar
-    case class Foo(x: Int, y: Int) extends FooBar
-    case class Bar(z: String) extends FooBar
+    final case class Foo(x: Int, y: Int) extends FooBar
+    final case class Bar(z: String) extends FooBar
 
     val obtained = Delta.diff(
       Seq(Foo(1, 2), Bar("foo"), Foo(3, 4), Foo(5, 6)),
