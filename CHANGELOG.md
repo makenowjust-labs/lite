@@ -6,6 +6,9 @@ Changes:
 - `lite-pfix`: Initial release ([#27](https://github.com/MakeNowJust-Labo/lite/pull/27))
 - `lite-shohw`: Use `lite-pfix` ([#27](https://github.com/MakeNowJust-Labo/lite/pull/27))
 - `lite-crazy`: Initial release ([#28](https://github.com/MakeNowJust-Labo/lite/pull/28))
+- `lite-delta` Initial release ([#29](https://github.com/MakeNowJust-Labo/lite/pull/29))
+- `lite-show`: Add `isControl` parameter to `Pretty.Lit` ([#29](https://github.com/MakeNowJust-Labo/lite/pull/29))
+- `lite-gestalt`: Rename from `lite-diff` ([#29](https://github.com/MakeNowJust-Labo/lite/pull/29))
 - Support Scala 2.13.6
 - Support Scala 3.0.1 ([#23](https://github.com/MakeNowJust-Labo/lite/pull/23))
 - Update sbt to 1.5.5 ([#24](https://github.com/MakeNowJust-Labo/lite/pull/24))
