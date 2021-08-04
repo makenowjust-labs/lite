@@ -23,7 +23,7 @@ object Prettify {
   }
 
   /** GenOps provides `toPrettify` method into `Gen` instance. */
-  implicit class GenOps(private val g: Gen) extends AnyVal {
+  implicit class PrettifyGenOps(private val g: Gen) extends AnyVal {
 
     /** Converts a generator into a prettify function. */
     def toPrettify: Prettify = {
@@ -63,6 +63,7 @@ object Prettify {
         else c.toString
     }
 
+  /** A default converter. */
   def default(maxSize: Int = 30): Gen =
     `null`.orElse(string).orElse(char).orElse(boolean).orElse(number).orElse(iterable(maxSize)).orElse(product)
 
@@ -123,7 +124,7 @@ object Prettify {
         buildApply(
           prefix,
           LazyList.from(p.productIterator).zipWithIndex.map { case (v, i) =>
-            (if (isTuple) Seq.empty else Seq(Wide(s"${p.productElementName(i)} = "))) ++ rec(v)
+            (if (isTuple) Seq(Wide(s"_${i + 1} = ")) else Seq(Wide(s"${p.productElementName(i)} = "))) ++ rec(v)
           }
         )
     }

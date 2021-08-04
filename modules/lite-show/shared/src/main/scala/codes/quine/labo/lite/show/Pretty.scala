@@ -22,7 +22,7 @@ object Pretty {
   }
 
   /** Lit is a literal string fragment. */
-  final case class Lit(content: String) extends Pretty {
+  final case class Lit(content: String, isControl: Boolean = false) extends Pretty {
     protected[show] def toCompact: Seq[Lit] = List(this)
   }
 
@@ -53,13 +53,14 @@ object Pretty {
           case Nil => true
           case (indent, top) :: remain =>
             top match {
-              case Nil                => fits(column, remain)
-              case Line :: _          => true
-              case Break :: _         => true
-              case Lit(s) :: fs       => fits(column + s.length, (indent, fs) :: remain)
-              case Wide(s) :: fs      => fits(column + s.length, (indent, fs) :: remain)
-              case Indent(fs1) :: fs2 => fits(column, (indent + indentSize, fs1) :: (indent, fs2) :: remain)
-              case Group(fs1) :: fs2  => fits(column, (indent, fs1) :: (indent, fs2) :: remain)
+              case Nil                 => fits(column, remain)
+              case Line :: _           => true
+              case Break :: _          => true
+              case Lit(s, false) :: fs => fits(column + s.length, (indent, fs) :: remain)
+              case Lit(_, true) :: fs  => fits(column, (indent, fs) :: remain)
+              case Wide(s) :: fs       => fits(column + s.length, (indent, fs) :: remain)
+              case Indent(fs1) :: fs2  => fits(column, (indent + indentSize, fs1) :: (indent, fs2) :: remain)
+              case Group(fs1) :: fs2   => fits(column, (indent, fs1) :: (indent, fs2) :: remain)
             }
         }
 
@@ -79,9 +80,12 @@ object Pretty {
             case (Line | Break) :: fs =>
               sb.append("\n").append(" " * indent)
               loop(indent, (indent, fs) :: remain)
-            case Lit(s) :: fs =>
+            case Lit(s, false) :: fs =>
               sb.append(s)
               loop(column + s.length, (indent, fs) :: remain)
+            case Lit(s, true) :: fs =>
+              sb.append(s)
+              loop(column, (indent, fs) :: remain)
             case Wide(s) :: fs =>
               sb.append(s)
               loop(column + s.length, (indent, fs) :: remain)
@@ -91,7 +95,7 @@ object Pretty {
               val c = g.toCompact
               // If a compact form can fit the width, then it renders the compact form.
               if (fits(column, (indent, c) :: (indent, fs2) :: remain)) {
-                c.foreach { case Lit(s) => sb.append(s) }
+                c.foreach { case Lit(s, _) => sb.append(s) }
                 loop(column + c.map(_.content.length).sum, (indent, fs2) :: remain)
               } else loop(column, (indent, fs1) :: (indent, fs2) :: remain)
           }
