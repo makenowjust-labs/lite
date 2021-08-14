@@ -11,7 +11,7 @@ jobs:
         platform: [JVM, JS, Native]
         exclude:
           - scala: 3.0.1
-            platform: native
+            platform: Native
     runs-on: ubuntu-20.04
     name: Scala CI
     steps:
@@ -21,12 +21,12 @@ jobs:
           java-version: adopt@1.14
       - name: Test with Coverage
         if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'
-        run: sbt ++${{ matrix.scala }} coverage testJVM coverageAggregate
+        run: sbt ++${{ matrix.scala }} coverage root${{ matrix.platform }}/test coverageAggregate
+      - uses: codecov/codecov-action@v1
+        if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'
       - name: Test
         if: "!(matrix.scala == '2.13.6' && matrix.platform == 'JVM')"
-        run: sbt ++${{ matrix.scala }} test${{ matrix.platform }}
+        run: sbt ++${{ matrix.scala }} root${{ matrix.platform }}/test
       - name: Format and Lint
         if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'
         run: sbt ++${{ matrix.scala }} scalafmtCheckAll scalafmtSbtCheck 'scalafixAll --check'
-      - uses: codecov/codecov-action@v1
-        if: matrix.scala == '2.13.6' && matrix.platform == 'JVM'
