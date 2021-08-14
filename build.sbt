@@ -53,7 +53,7 @@ lazy val root = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .crossType(CrossType.Pure)
   .in(file("."))
   .settings(commonGlobalSettings)
-  .aggregate(crazy, delta, gestalt, gimei, grapheme, pfix, romaji, show)
+  .aggregate(crazy, delta, gestalt, gimei, grapheme, parser, pfix, romaji, show)
 
 lazy val rootJVM = root.jvm
 lazy val rootJS = root.js
@@ -222,20 +222,20 @@ lazy val useGraphemeTestGenerator = {
   )
 }
 
-lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
-  .in(file("modules/lite-romaji"))
+lazy val parser = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .in(file("modules/lite-parser"))
   .settings(
-    name := "lite-romaji",
-    console / initialCommands := "import codes.quine.labo.lite.romaji._\n",
+    name := "lite-parser",
+    console / initialCommands := "import codes.quine.labo.lite.parser._\n",
     commonSettings,
     useMunit
   )
   .jsSettings(commonJSSettings)
   .nativeSettings(commonNativeSettings)
 
-lazy val romajiJVM = romaji.jvm
-lazy val romajiJS = romaji.js
-lazy val romajiNative = romaji.native
+lazy val parserJVM = parser.jvm
+lazy val parserJS = parser.js
+lazy val parserNative = parser.native
 
 lazy val pfix = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-pfix"))
@@ -251,6 +251,21 @@ lazy val pfix = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 lazy val pfixJVM = pfix.jvm
 lazy val pfixJS = pfix.js
 lazy val pfixNative = pfix.native
+
+lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .in(file("modules/lite-romaji"))
+  .settings(
+    name := "lite-romaji",
+    console / initialCommands := "import codes.quine.labo.lite.romaji._\n",
+    commonSettings,
+    useMunit
+  )
+  .jsSettings(commonJSSettings)
+  .nativeSettings(commonNativeSettings)
+
+lazy val romajiJVM = romaji.jvm
+lazy val romajiJS = romaji.js
+lazy val romajiNative = romaji.native
 
 lazy val show = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-show"))
