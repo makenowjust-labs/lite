@@ -171,7 +171,7 @@ lazy val useGimeiDataGenerator = {
   )
 }
 
-lazy val gitignore = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+lazy val gitignore = crossProject(JVMPlatform)
   .in(file("modules/lite-gitignore"))
   .settings(
     name := "lite-gitignore",
@@ -183,13 +183,9 @@ lazy val gitignore = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     commonSettings,
     useMunit
   )
-  .jsSettings(commonJSSettings)
-  .nativeSettings(commonNativeSettings)
   .dependsOn(parser)
 
 lazy val gitignoreJVM = gitignore.jvm
-lazy val gitignoreJS = gitignore.js
-lazy val gitignoreNative = gitignore.native
 
 lazy val grapheme = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-grapheme"))
