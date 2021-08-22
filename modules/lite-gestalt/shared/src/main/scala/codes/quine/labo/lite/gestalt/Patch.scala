@@ -2,9 +2,8 @@ package codes.quine.labo.lite.gestalt
 
 /** Patch is a result of diff operation.
   *
-  * Note that this data class is not for patching purpose against its naming,
-  * but it is for generating a patch string like unified format.
-  * This contains original sequences for such a purpose.
+  * Note that this data class is not for patching purpose against its naming, but it is for generating a patch string
+  * like unified format. This contains original sequences for such a purpose.
   */
 final case class Patch[A](left: IndexedSeq[A], right: IndexedSeq[A], hunks: Seq[Hunk]) {
 

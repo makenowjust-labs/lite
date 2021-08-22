@@ -25,8 +25,8 @@ object Grapheme {
     case object Extend extends State
   }
 
-  /** The deterministic transition table to detect a grapheme boundary.
-    * It is assembled by hand from the regexes of Table 1b. and 1c. in [[https://unicode.org/reports/tr29/ UAX29]].
+  /** The deterministic transition table to detect a grapheme boundary. It is assembled by hand from the regexes of
+    * Table 1b. and 1c. in [[https://unicode.org/reports/tr29/ UAX29]].
     */
   private final val Transition: Map[(State, Property), State] = Map(
     // crlf:
@@ -118,8 +118,8 @@ object Grapheme {
     (State.Extend, Property.SpacingMark) -> State.Extend
   )
 
-  /** The initial state of the reversed deterministic transition table.
-    * It is a set of all states except for `Init` due to non final state.
+  /** The initial state of the reversed deterministic transition table. It is a set of all states except for `Init` due
+    * to non final state.
     */
   private final val ReversedInitState: Set[State] = Set(
     State.NoExtend,
@@ -181,8 +181,8 @@ object Grapheme {
     }
   }
 
-  /** Finds the next grapheme boundary index of the given string from the specified index.
-    * When the index is invalid as a start position of a grapheme cluster, it throws a StringIndexOutOfBounds exception.
+  /** Finds the next grapheme boundary index of the given string from the specified index. When the index is invalid as
+    * a start position of a grapheme cluster, it throws a StringIndexOutOfBounds exception.
     */
   def findNextBoundary(s: String, index: Int): Int = {
     if (index < 0 || s.length <= index) {
@@ -220,9 +220,8 @@ object Grapheme {
     execTransition(s, Transition((initState, prop)), i + Character.charCount(cp))
   }
 
-  /** Like `findNextBoundary`, but it is '''UNSAFE''' in fact.
-    * '''UNSAFE''' means it does not safe when the index points non boundary of grapheme cluster.
-    * It is useful to imitate PCRE and Ruby's `/\X/` behavior for example.
+  /** Like `findNextBoundary`, but it is '''UNSAFE''' in fact. '''UNSAFE''' means it does not safe when the index points
+    * non boundary of grapheme cluster. It is useful to imitate PCRE and Ruby's `/\X/` behavior for example.
     */
   def unsafeFindNextBoundary(s: String, index: Int): Int = {
     if (index < 0 || s.length <= index) {
@@ -245,8 +244,8 @@ object Grapheme {
       }
     }
 
-  /** Finds a `XPicto` character on skipping `Extend` characters in backward direction.
-    * It returns `true` if it is found, or it returns `false`.
+  /** Finds a `XPicto` character on skipping `Extend` characters in backward direction. It returns `true` if it is
+    * found, or it returns `false`.
     */
   @tailrec
   private def findPreviousXPicto(s: String, index: Int): Boolean =
@@ -261,8 +260,8 @@ object Grapheme {
       }
     }
 
-  /** Finds the previous grapheme boundary index of the given string from the specified index.
-    * When the index is invalid as an end position of a grapheme cluster, it throws a StringIndexOutOfBounds exception.
+  /** Finds the previous grapheme boundary index of the given string from the specified index. When the index is invalid
+    * as an end position of a grapheme cluster, it throws a StringIndexOutOfBounds exception.
     */
   def findPreviousBoundary(s: String, index: Int): Int = {
     if (index <= 0 || s.length < index) {
@@ -281,9 +280,8 @@ object Grapheme {
     execReversedTransition(s, initState, i, i)
   }
 
-  /** Like `findPreviousBoundary`, but it is '''UNSAFE''' in fact.
-    * '''UNSAFE''' means it does not safe when the index points non boundary of grapheme cluster.
-    * It is useful to imitate PCRE and Ruby's `/\X/` behavior for example.
+  /** Like `findPreviousBoundary`, but it is '''UNSAFE''' in fact. '''UNSAFE''' means it does not safe when the index
+    * points non boundary of grapheme cluster. It is useful to imitate PCRE and Ruby's `/\X/` behavior for example.
     */
   def unsafeFindPreviousBoundary(s: String, index: Int): Int = {
     if (index <= 0 || s.length < index) {
