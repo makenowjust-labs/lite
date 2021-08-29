@@ -6,8 +6,8 @@ final case class RState[S, A](run: Lazy[S] => (Lazy[S], Lazy[A])) {
   /** Applies a result value to the given mapping, and returns a new reversed state monad holds this result. */
   def map[B](f: Lazy[A] => Lazy[B]): RState[S, B] = flatMap(lx => RState.pure(f(lx)))
 
-  /** Applies a result value to the given mapping, and returns a new reversed state monad holds flattened result.
-    * Hence the mapping requires a lazy cell as its argument, we can write an action depends on future state.
+  /** Applies a result value to the given mapping, and returns a new reversed state monad holds flattened result. Hence
+    * the mapping requires a lazy cell as its argument, we can write an action depends on future state.
     */
   def flatMap[B](f: Lazy[A] => RState[S, B]): RState[S, B] =
     RState[S, B] { ls0 =>

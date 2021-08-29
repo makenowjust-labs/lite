@@ -6,8 +6,8 @@ final case class Tardis[BW, FW, A](run: (Lazy[BW], Lazy[FW]) => (Lazy[BW], Lazy[
   /** Applies a result value to the given mapping, and returns a new tardis monad holds this result. */
   def map[B](f: Lazy[A] => Lazy[B]): Tardis[BW, FW, B] = flatMap(lx => Tardis.pure(f(lx)))
 
-  /** Applies a result value to the given mapping, and returns a new tardis monad holds flattened result.
-    * Hence the mapping requires lazy cells as its arguments, we can write an action depends on both of future and past state.
+  /** Applies a result value to the given mapping, and returns a new tardis monad holds flattened result. Hence the
+    * mapping requires lazy cells as its arguments, we can write an action depends on both of future and past state.
     */
   def flatMap[B](f: Lazy[A] => Tardis[BW, FW, B]): Tardis[BW, FW, B] =
     Tardis { case (lb0, lf0) =>

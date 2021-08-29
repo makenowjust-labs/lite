@@ -5,8 +5,8 @@ import scala.collection.mutable
 /** Gestalt is a frontend object of diff computation. */
 object Gestalt {
 
-  /** Computes diff between two sequence
-    * by using [[https://en.wikipedia.org/wiki/Gestalt_Pattern_Matching Gestalt Pattern Matching]].
+  /** Computes diff between two sequence by using
+    * [[https://en.wikipedia.org/wiki/Gestalt_Pattern_Matching Gestalt Pattern Matching]].
     */
   def diff[A](left: Seq[A], right: Seq[A]): Patch[A] =
     new Gestalt(left.toIndexedSeq, right.toIndexedSeq).run()
