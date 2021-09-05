@@ -3,7 +3,7 @@
 val scala2Version = "2.13.6"
 val scala3Version = "3.0.2"
 
-val munitVersion = "0.7.28"
+val munitVersion = "0.7.29"
 
 val organizeImportsVersion = "0.5.0"
 val scaluzziVersion = "0.1.18"
