@@ -105,6 +105,18 @@ class ParserSuite extends munit.FunSuite {
     assertEquals(parser.parse("xyz"), Right((0, 1)))
   }
 
+  test("Parser.&?") {
+    val parser = Parser.&?(Parser.charLiteral('x'))
+    assertEquals(parser.parse("xyz"), Right((0, ())))
+    assertEquals(parser.parse("abc"), Left(Error.Unexpected(0)))
+  }
+
+  test("Parser.&!") {
+    val parser = Parser.&!(Parser.charLiteral('x'))
+    assertEquals(parser.parse("abc"), Right((0, ())))
+    assertEquals(parser.parse("xyz"), Left(Error.Unexpected(0)))
+  }
+
   test("Parser#~") {
     val parser = Parser.charLiteral('x') ~ Parser.charLiteral('y')
     assertEquals(parser.parse("xyz"), Right((2, ())))

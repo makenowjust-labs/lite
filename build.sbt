@@ -53,7 +53,7 @@ lazy val root = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .crossType(CrossType.Pure)
   .in(file("."))
   .settings(commonGlobalSettings)
-  .aggregate(crazy, delta, gestalt, gimei, grapheme, parser, pfix, romaji, show)
+  .aggregate(crazy, delta, gestalt, gimei, gitignore, grapheme, parser, pfix, romaji, show)
 
 lazy val rootJVM = root.jvm
 lazy val rootJS = root.js
@@ -171,11 +171,27 @@ lazy val useGimeiDataGenerator = {
   )
 }
 
+lazy val gitignore = crossProject(JVMPlatform)
+  .in(file("modules/lite-gitignore"))
+  .settings(
+    name := "lite-gitignore",
+    console / initialCommands += "import java.nio.file.Files\n",
+    console / initialCommands += "import java.nio.file.Path\n",
+    console / initialCommands += "import java.nio.file.Paths\n",
+    console / initialCommands += "\n",
+    console / initialCommands += "import codes.quine.labo.lite.gitignore._\n",
+    commonSettings,
+    useMunit
+  )
+  .dependsOn(parser)
+
+lazy val gitignoreJVM = gitignore.jvm
+
 lazy val grapheme = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-grapheme"))
   .settings(
     name := "lite-grapheme",
-    console / initialCommands := "import codes.quine.labo.lite.grapheme._\n",
+    console / initialCommands += "import codes.quine.labo.lite.grapheme._\n",
     commonSettings,
     useMunit,
     coverageExcludedPackages := "<empty>;codes\\.quine\\.labo\\.lite\\.grapheme\\.Data.*",
@@ -226,7 +242,7 @@ lazy val parser = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-parser"))
   .settings(
     name := "lite-parser",
-    console / initialCommands := "import codes.quine.labo.lite.parser._\n",
+    console / initialCommands += "import codes.quine.labo.lite.parser._\n",
     commonSettings,
     useMunit
   )
@@ -241,7 +257,7 @@ lazy val pfix = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-pfix"))
   .settings(
     name := "lite-pfix",
-    console / initialCommands := "import codes.quine.labo.lite.pfix._\n",
+    console / initialCommands += "import codes.quine.labo.lite.pfix._\n",
     commonSettings,
     useMunit
   )
@@ -256,7 +272,7 @@ lazy val romaji = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .in(file("modules/lite-romaji"))
   .settings(
     name := "lite-romaji",
-    console / initialCommands := "import codes.quine.labo.lite.romaji._\n",
+    console / initialCommands += "import codes.quine.labo.lite.romaji._\n",
     commonSettings,
     useMunit
   )

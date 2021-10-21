@@ -187,6 +187,12 @@ object Parser {
   /** Returns a parser to be failed with the given message. */
   def fail(message: String): Parser[Any] = new Fail(message)
 
+  /** Returns a positive look-ahead parser. */
+  def &?[A](parser: Parser[A]): Parser[Unit] = new PosLookAhead(parser)
+
+  /** Returns a negative look-ahead parser. */
+  def &![A](parser: Parser[A]): Parser[Unit] = new NegLookAhead(parser)
+
   /** Returns a delayed parser. */
   def delay[A](parser: => Parser[A]): Parser[A] = new Delay(() => parser)
 
@@ -378,21 +384,21 @@ object Parser {
   }
 
   /** [[Parser.pass]] implementation. */
-  private class Pass[A](value: A) extends Parser[A] {
+  private final class Pass[A](value: A) extends Parser[A] {
     def unsafeParse(state: State): Unit = {
       state.done(state.offset, value)
     }
   }
 
   /** [[Parser.fail]] implementation. */
-  private class Fail(message: String) extends Parser[Any] {
+  private final class Fail(message: String) extends Parser[Any] {
     def unsafeParse(state: State): Unit = {
       state.failed(Error.Failure(state.offset, message))
     }
   }
 
   /** [[Parser.delay]] implementation. */
-  private class Delay[A](var parser0: () => Parser[A]) extends Parser[A] {
+  private final class Delay[A](var parser0: () => Parser[A]) extends Parser[A] {
     lazy val parser: Parser[A] = {
       val p = parser0()
       parser0 = null
@@ -400,5 +406,22 @@ object Parser {
     }
 
     def unsafeParse(state: State): Unit = parser.unsafeParse(state)
+  }
+
+  private final class PosLookAhead[A](val parser: Parser[A]) extends Parser[Unit] {
+    def unsafeParse(state: State): Unit = {
+      val offset = state.offset
+      parser.unsafeParse(state)
+      if (state.isOK) state.done(offset, ())
+    }
+  }
+
+  private final class NegLookAhead[A](val parser: Parser[A]) extends Parser[Unit] {
+    def unsafeParse(state: State): Unit = {
+      val offset = state.offset
+      parser.unsafeParse(state)
+      if (!state.isOK) state.done(offset, ())
+      else state.failed(Error.Unexpected(offset))
+    }
   }
 }
