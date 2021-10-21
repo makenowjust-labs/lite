@@ -1,7 +1,7 @@
 // Versions:
 
 val scala2Version = "2.13.6"
-val scala3Version = "3.0.2"
+val scala3Version = "3.1.0"
 
 val munitVersion = "0.7.29"
 
